@@ -10,7 +10,7 @@ class Url extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id', 'title', 'original_url', 'shortener_url'
+        'user_id', 'title', 'original_url', 'shortener_url','clicks'
     ];
 
     public function user()

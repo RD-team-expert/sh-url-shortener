@@ -17,7 +17,7 @@ class UrlController extends Controller
     public function index()
     {
         return view('urls.index', [
-            'urls' => Url::with('user')->latest()->get(),
+            'urls' => Url::where('user_id', Auth::id())->latest()->paginate(10),
         ]);
     }
 
@@ -47,7 +47,7 @@ class UrlController extends Controller
         $data['user_id'] = Auth::user()->id;
         $data['title'] = Str::ucfirst($request->title);
         $data['original_url'] = $request->original_url;
-        $data['shortener_url'] = Str::random(5);
+        $data['shortener_url'] = Str::random(6);
         Url::create($data);
         return redirect(route('urls.index'));
     }
@@ -89,7 +89,7 @@ class UrlController extends Controller
             'title' => 'required|string|max:255',
             'original_url' => 'required|string|max:255',
         ]);
-        $validated['shortener_url'] = Str::random(5);
+        $validated['shortener_url'] = Str::random(6);
         $url->update($validated);
         return redirect(route('urls.index'));
     }
@@ -108,7 +108,19 @@ class UrlController extends Controller
 
     public function shortenLink($shortener_url)
     {
+        // Find the URL by the shortener_url
         $find = Url::where('shortener_url', $shortener_url)->first();
+    
+        // Check if the URL exists
+        if (!$find) {
+            // Return a 404 error page with a custom message
+            abort(404, 'Shortened URL not found.');
+        }
+    
+        // Increment click count
+        $find->increment('clicks');
+    
+        // Redirect to the original URL
         return redirect($find->original_url);
     }
 }

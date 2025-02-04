@@ -63,6 +63,7 @@
                             @endif
                         </div>
                         <p class="mt-4 text-lg text-gray-900">{{ __('Title: ') }} {{ $item->title }}</p>
+                        <p class="mt-4 text-lg text-gray-900">{{ __('Clicks: ') }} {{ $item->clicks }}</p>
                         <p class="mt-4 text-lg text-gray-900">{{ __('Original Url: ') }}{{ $item->original_url }}</p>
                         <p class="mt-4 text-lg text-gray-900">{{ __('Shortener Url: ') }}
                             <a href="{{ route('shortener-url', $item->shortener_url) }}" target="_blank">
@@ -73,5 +74,11 @@
                 </div>
             @endforeach
         </div>
+
+        <!-- Pagination Links -->
+        <div class="mt-6">
+            {{ $urls->links() }}
+        </div>
+
     </div>
 </x-app-layout>
