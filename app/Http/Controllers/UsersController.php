@@ -1,6 +1,6 @@
 <?php
+namespace App\Http\Controllers;
 
-namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -13,7 +13,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
-class RegisteredUserController extends Controller
+
+class UsersController extends Controller
+
 {
     /**
      * Display the registration view.
@@ -28,7 +30,7 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -44,8 +46,12 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-      //  Auth::login($user);
+        // Flash success message to the session
+        session()->flash('success', 'User Added Successfully');
 
-      return view('AddUser');
+        //  Auth::login($user);
+        return view('AddUser');
     }
 }
+
+

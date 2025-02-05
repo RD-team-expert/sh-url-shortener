@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UrlController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UsersController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 
 
@@ -21,6 +23,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 Route::get('/', function () {
     return view('auth.login');
 });
+
 Route::get('/login', function () {
     return view('auth.login');
 });
@@ -34,23 +37,30 @@ Route::get('/dashboard', function () {
 Route::resource('urls', UrlController::class)
 ->middleware(['auth', 'verified']);
 
+// Route::resource('urls', UsersController::class)
+// ->middleware(['auth', 'verified']);
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('add-user', [UsersController::class, 'create'])->name('add-user');
+    Route::post('add-user', [UsersController::class, 'store'])->name('store-user');
+
+
+
+
 });
 
-// Route for register 
-Route::middleware('guest')->group(function () {
-    Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
-    Route::post('register', [RegisteredUserController::class, 'store']);
-});
 
 
-
+Route::post('/post',[PostController::class,'create']);
 
 // route for get shortener url
 Route::get('{shortener_url}', [UrlController::class, 'shortenLink'])->name('shortener-url');
+
+
 
 require __DIR__.'/auth.php';

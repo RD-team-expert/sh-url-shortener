@@ -39,14 +39,14 @@
                         <h2 class="text-lg font-semibold">PNE United</h2>
                         <p class="text-sm text-gray-400"><strong>Made with ❤️ By R&D</strong></p>
                     </div>
-        
+
                     <!-- Center: Quick Links -->
                     <div class="flex space-x-6">
                         <a href="{{ route('dashboard') }}" class="text-gray-400 hover:text-white text-sm">Dashboard</a>
                         <a href="{{ route('urls.index') }}" class="text-gray-400 hover:text-white text-sm">URL</a>
 
                     </div>
-        
+
                     <!-- Right Side: Social Media -->
                     {{-- <div class="flex space-x-4">
                         <a href="#" class="text-gray-400 hover:text-white">
@@ -66,13 +66,13 @@
                         </a>
                     </div> --}}
                 </div>
-        
+
                 <!-- Divider -->
                 <div class="border-t border-gray-700 mt-4 pt-4 text-center text-sm text-gray-400">
                     © {{ date('Y') }} PNE. All rights reserved.
                 </div>
             </div>
         </footer>
-        
+
     </body>
 </html>

@@ -110,16 +110,16 @@ class UrlController extends Controller
     {
         // Find the URL by the shortener_url
         $find = Url::where('shortener_url', $shortener_url)->first();
-    
+
         // Check if the URL exists
         if (!$find) {
             // Return a 404 error page with a custom message
             abort(404, 'Shortened URL not found.');
         }
-    
+
         // Increment click count
         $find->increment('clicks');
-    
+
         // Redirect to the original URL
         return redirect($find->original_url);
     }

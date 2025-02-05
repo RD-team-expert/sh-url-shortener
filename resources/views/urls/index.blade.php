@@ -72,8 +72,11 @@
                         </p>
                     </div>
                 </div>
+                    <hr><hr><hr>
             @endforeach
+
         </div>
+
 
         <!-- Pagination Links -->
         <div class="mt-6">
