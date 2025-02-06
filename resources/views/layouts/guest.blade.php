@@ -7,22 +7,31 @@
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
+
         <!-- Fonts -->
         <link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap">
 
         <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
+        <link rel="stylesheet" href="{{asset('build/assets/app-d03607cd.css')}}">
+
     </head>
     <body class="font-sans text-gray-900 antialiased">
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
             <div>
                 <a href="/">
                     <img src="{{ asset('logo.png') }}" style="width: 200px; height: auto;" alt="Logo">                </a>
-            </div>            
+            </div>
 
             <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
                 {{ $slot }}
             </div>
         </div>
+
+
+
+
+        <script src="{{asset('build/assets/app-113fdd3a.js')}}"></script>
+
     </body>
 </html>

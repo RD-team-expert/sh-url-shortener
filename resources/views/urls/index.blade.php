@@ -66,10 +66,27 @@
                         <p class="mt-4 text-lg text-gray-900">{{ __('Clicks: ') }} {{ $item->clicks }}</p>
                         <p class="mt-4 text-lg text-gray-900">{{ __('Original Url: ') }}{{ $item->original_url }}</p>
                         <p class="mt-4 text-lg text-gray-900">{{ __('Shortener Url: ') }}
-                            <a href="{{ route('shortener-url', $item->shortener_url) }}" target="_blank">
+                            <a href="{{ route('shortener-url', $item->shortener_url) }}" target="_blank" id="shortener-url-{{ $item->id }}">
                                 {{ route('shortener-url', $item->shortener_url) }}
                             </a>
+                            <button onclick="copyToClipboard('shortener-url-{{ $item->id }}')" class="ml-2">
+                                <img src="https://cdn-icons-png.flaticon.com/512/1621/1621635.png" alt="Copy" class="h-5 w-5">
+                            </button>
                         </p>
+
+                        <script>
+                            function copyToClipboard(elementId) {
+                                const urlElement = document.getElementById(elementId);
+                                const urlText = urlElement.textContent || urlElement.innerText;
+
+                                navigator.clipboard.writeText(urlText).then(() => {
+                                    alert("Shortener URL copied to clipboard!");
+                                }).catch(err => {
+                                    console.error("Error copying text: ", err);
+                                });
+                            }
+                        </script>
+
                     </div>
                 </div>
                     <hr><hr><hr>
