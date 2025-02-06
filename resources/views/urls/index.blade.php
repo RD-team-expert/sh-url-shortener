@@ -79,13 +79,26 @@
                                 const urlElement = document.getElementById(elementId);
                                 const urlText = urlElement.textContent || urlElement.innerText;
 
-                                navigator.clipboard.writeText(urlText).then(() => {
+                                if (navigator.clipboard && navigator.clipboard.writeText) {
+                                    // Use modern clipboard API if available
+                                    navigator.clipboard.writeText(urlText).then(() => {
+                                        alert("Shortener URL copied to clipboard!");
+                                    }).catch(err => {
+                                        console.error("Error copying text: ", err);
+                                    });
+                                } else {
+                                    // Fallback for unsupported browsers
+                                    const tempInput = document.createElement("textarea");
+                                    tempInput.value = urlText;
+                                    document.body.appendChild(tempInput);
+                                    tempInput.select();
+                                    document.execCommand("copy"); // Old method
+                                    document.body.removeChild(tempInput);
                                     alert("Shortener URL copied to clipboard!");
-                                }).catch(err => {
-                                    console.error("Error copying text: ", err);
-                                });
+                                }
                             }
                         </script>
+
 
                     </div>
                 </div>
