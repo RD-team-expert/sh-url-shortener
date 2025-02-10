@@ -82,11 +82,24 @@
                         <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
                     </div>
 
-                    <div class="flex items-center justify-end mt-4">
-                        <x-primary-button class="ml-4">
-                            {{ __('Register') }}
-                        </x-primary-button>
+                    <!-- Role Dropdown -->
+                    <div class="mt-4">
+                        <x-input-label for="role" :value="__('Role')" />
+                        <select id="role" name="role" class="block mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+                            <option value="User" {{ old('role') === 'User' ? 'selected' : '' }}>User</option>
+                            <option value="Admin" {{ old('role') === 'Admin' ? 'selected' : '' }}>Admin</option>
+                        </select>
+                        <x-input-error :messages="$errors->get('role')" class="mt-2" />
                     </div>
+
+
+<!-- Submit Button -->
+<div class="flex items-center justify-end mt-4">
+    <x-primary-button class="ml-4">
+        {{ __('Register') }}
+    </x-primary-button>
+</div>
+
                 </form>
             </x-guest-layout>
 
