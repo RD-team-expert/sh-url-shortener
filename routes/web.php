@@ -41,22 +41,34 @@ Route::resource('urls', UrlController::class)
 // ->middleware(['auth', 'verified']);
 
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-    Route::get('add-user', [UsersController::class, 'create'])->name('add-user');
-    Route::post('add-user', [UsersController::class, 'store'])->name('store-user');
-
-
-
-
 });
 
+// ✅ Make 'add-user' available only for Admins
+Route::middleware(['auth', 'role:Admin'])->group(function () {
+    Route::get('add-user', [UsersController::class, 'create'])->name('add-user');
+    Route::post('add-user', [UsersController::class, 'store'])->name('store-user');
+});
+
+// users
+Route::middleware(['auth', 'role:Admin'])->get('/users', [UsersController::class, 'index'])->name('users.index');
+
+//feed back
+// Show the feedback form only for 'User' role
+Route::middleware(['auth', 'role:User'])->get('/feedback', function () {
+    return view('feedback');
+})->name('feedback.create');
+
+// Handle feedback submission
+Route::middleware(['auth', 'role:User'])->post('/feedback', [UsersController::class, 'storeFeedback'])->name('feedback.store');
 
 
-Route::post('/post',[PostController::class,'create']);
+
+// Admin Feedbacks Page (Only Admins can access)
+Route::middleware(['auth', 'role:Admin'])->get('/admin/feedbacks', [UsersController::class, 'showFeedbacks'])->name('admin.feedbacks');
 
 // route for get shortener url
 Route::get('{shortener_url}', [UrlController::class, 'shortenLink'])->name('shortener-url');
