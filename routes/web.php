@@ -19,6 +19,9 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 |
 */
 
+
+
+
 // route for login
 Route::get('/', function () {
     return view('auth.login');
@@ -27,6 +30,12 @@ Route::get('/', function () {
 Route::get('/login', function () {
     return view('auth.login');
 });
+
+Route::get('register', [RegisteredUserController::class, 'create'])
+->name('register');
+
+Route::post('register', [RegisteredUserController::class, 'store']);
+
 
 // route for dashboard
 Route::get('/dashboard', function () {
@@ -70,8 +79,12 @@ Route::middleware(['auth', 'role:User'])->post('/feedback', [UsersController::cl
 // Admin Feedbacks Page (Only Admins can access)
 Route::middleware(['auth', 'role:Admin'])->get('/admin/feedbacks', [UsersController::class, 'showFeedbacks'])->name('admin.feedbacks');
 
+
+
+
 // route for get shortener url
 Route::get('{shortener_url}', [UrlController::class, 'shortenLink'])->name('shortener-url');
+
 
 
 

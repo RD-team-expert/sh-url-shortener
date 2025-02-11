@@ -31,6 +31,7 @@ class UsersController extends Controller
      * @throws \Illuminate\Validation\ValidationException
      */
 
+
      public function showFeedbacks()
      {
          $feedbacks = Feedback::with('user')->latest()->get();
@@ -91,6 +92,8 @@ class UsersController extends Controller
         // Return the 'users_table' view with the users data
         return view('users_table', compact('users'));
     }
+
+
 }
 
 

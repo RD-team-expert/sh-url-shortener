@@ -63,6 +63,14 @@
                             </x-dropdown-link>
                         @endif
 
+
+                        <!-- users -->
+                        @if (Auth::user()->role === 'Admin')
+                        <x-dropdown-link :href="route('users.index')">
+                            {{ __('Users') }}
+                        </x-dropdown-link>
+                        @endif
+
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -124,6 +132,19 @@
                 <x-responsive-nav-link :href="route('profile.edit')">
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
+
+            <!-- Add User Link (Only for Admins) -->
+            @if (Auth::user()->role === 'Admin')
+            <x-responsive-nav-link :href="route('add-user')">
+                {{ __('Add User') }}
+            </x-responsive-nav-link>
+            @endif
+                <!-- users -->
+                @if (Auth::user()->role === 'Admin')
+                <x-responsive-nav-link :href="route('users.index')">
+                    {{ __('Users') }}
+                </x-responsive-nav-link>
+                @endif
 
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
