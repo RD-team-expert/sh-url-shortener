@@ -40,15 +40,21 @@
                                                         </svg>
                                                     </div>
 
-                                                    <!-- Dropdown Menu -->
-                                                    <div x-show="openDropdown === {{ $user->id }}"
-                                                        @click.away="openDropdown = null"
-                                                        class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
-                                                        <div class="py-1">
-                                                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Edit</a>
-                                                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Delete</a>
-                                                        </div>
-                                                    </div>
+                                                   <!-- Dropdown Menu -->
+<div x-show="openDropdown === {{ $user->id }}"
+    @click.away="openDropdown = null"
+    class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
+    <div class="py-1">
+        @if(Auth::user()->role === 'Admin')
+            <a href="{{ route('users.edit', $user->id) }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Edit</a>
+            <form action="{{ route('users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this user?');">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left">Delete</button>
+            </form>
+        @endif
+    </div>
+</div>
                                                 </div>
                                             </td>
                                         </tr>

@@ -93,6 +93,78 @@ class UsersController extends Controller
         return view('users_table', compact('users'));
     }
 
+    public function destroy($id)
+{
+    // Find the user by ID
+    $user = User::findOrFail($id);
+
+    // Prevent deleting the currently authenticated user
+    if (Auth::id() === $user->id) {
+        return redirect()->back()->with('error', 'You cannot delete your own account.');
+    }
+
+    // Delete the user
+    $user->delete();
+
+    // Flash success message to the session
+    session()->flash('success', 'User deleted successfully.');
+
+    // Redirect back to the users list page
+    return redirect()->route('users.index');
+}
+
+public function edit($id)
+{
+    if (Auth::user()->role !== 'Admin') {
+        abort(403, 'Unauthorized action.');
+    }
+
+    $user = User::findOrFail($id);
+    return view('edit_user', compact('user'));
+}
+
+public function update(Request $request, $id)
+{
+
+    if (Auth::user()->role !== 'Admin') {
+        abort(403, 'Unauthorized action.');
+    }
+
+    $user = User::findOrFail($id);
+
+    $data = $request->validate([
+        'name' => ['nullable','string', 'max:255'],
+        'email' => ['nullable','string', 'email', 'max:255', 'unique:users,email,'.$id],
+        'role' => ['required','in:Admin,User'], // Validate role
+    ]);
+
+    if ($request->filled('name')) {
+        $user->name = $data['name'];
+    }
+
+    if ($request->filled('email')) {
+        $user->email = $data['email'];
+    }
+    $user->update([
+        'role' => $request->role
+    ]);
+
+    $user->save();
+     // Update password **only if a new password is provided**
+
+
+    if ($request->filled('password')){
+        $validated = $request->validate([
+            'password' => ['string'],
+        ]);
+        $request->user()->update([
+        'password' => Hash::make($validated['password']),
+    ]);
+    }
+
+    return redirect()->route('users.index');
+}
+
 
 }
 

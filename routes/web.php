@@ -8,6 +8,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,8 +19,6 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-
 
 
 // route for login
@@ -36,7 +35,6 @@ Route::get('register', [RegisteredUserController::class, 'create'])
 
 Route::post('register', [RegisteredUserController::class, 'store']);
 
-
 // route for dashboard
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -48,8 +46,6 @@ Route::resource('urls', UrlController::class)
 
 // Route::resource('urls', UsersController::class)
 // ->middleware(['auth', 'verified']);
-
-
 Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -74,18 +70,20 @@ Route::middleware(['auth', 'role:User'])->get('/feedback', function () {
 // Handle feedback submission
 Route::middleware(['auth', 'role:User'])->post('/feedback', [UsersController::class, 'storeFeedback'])->name('feedback.store');
 
-
-
 // Admin Feedbacks Page (Only Admins can access)
 Route::middleware(['auth', 'role:Admin'])->get('/admin/feedbacks', [UsersController::class, 'showFeedbacks'])->name('admin.feedbacks');
 
 
+//delete user (Admin)
+Route::delete('/users/{id}', [UsersController::class, 'destroy'])->name('users.destroy');
 
+Route::middleware(['auth', 'role:Admin'])->group(function () {
+
+Route::get('/users/{id}/edit', [UsersController::class, 'edit'])->name('users.edit');
+Route::put('/users/{id}', [UsersController::class, 'update'])->name('users.update');
+});
 
 // route for get shortener url
 Route::get('{shortener_url}', [UrlController::class, 'shortenLink'])->name('shortener-url');
-
-
-
 
 require __DIR__.'/auth.php';
