@@ -6,7 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\Auth\RegisteredUserController;
-
+use App\Http\Controllers\Auth\PasswordResetLinkController;
 
 
 /*
@@ -82,6 +82,15 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
 Route::get('/users/{id}/edit', [UsersController::class, 'edit'])->name('users.edit');
 Route::put('/users/{id}', [UsersController::class, 'update'])->name('users.update');
 });
+
+
+// forget pass
+
+Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
+->name('password.request');
+
+Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])
+->name('password.email');
 
 // route for get shortener url
 Route::get('{shortener_url}', [UrlController::class, 'shortenLink'])->name('shortener-url');

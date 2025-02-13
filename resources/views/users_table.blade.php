@@ -15,7 +15,7 @@
                                     <tr class="bg-gray-50 text-left text-gray-600 uppercase text-sm leading-normal">
                                         <th class="py-3 px-4 sm:px-6">Name</th>
                                         <th class="py-3 px-4 sm:px-6">Email</th>
-                                        <th class="py-3 px-4 sm:px-6">Password</th>
+                                        
                                         <th class="py-3 px-4 sm:px-6">Role</th>
                                         <th class="py-3 px-4 sm:px-6 text-right">Actions</th>
                                     </tr>
@@ -25,9 +25,7 @@
                                         <tr class="border-b border-gray-200 hover:bg-gray-50">
                                             <td class="py-3 px-4 sm:px-6">{{ $user->name }}</td>
                                             <td class="py-3 px-4 sm:px-6">{{ $user->email }}</td>
-                                            <td class="py-3 px-4 sm:px-6">
-                                                **********
-                                            </td>
+                                            
                                             <td class="py-3 px-4 sm:px-6">{{ $user->role }}</td>
                                             <td class="py-3 px-4 sm:px-6 text-right">
                                                 <div class="relative inline-block text-left">
